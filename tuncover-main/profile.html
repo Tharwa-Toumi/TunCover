@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<link rel="manifest" href="manifest.json"/>
+<meta name="theme-color" content="#1A1410"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="mobile-web-app-capable" content="yes"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>TunCover — Artisan Profile</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+
+<link rel="stylesheet" href="css/profile.css?v=20260422b">
+</head>
+<body>
+
+<nav id="nav">
+  <a href="tuncover-home.html" class="nav-logo">TunCover</a>
+  <div class="nav-links" id="navLinks">
+    <a href="tuncover-explore.html">Discover</a>
+    <a href="tuncover-artisans.html">Artisans</a>
+    <a href="tuncover-login.html" class="nav-cta">Sign In</a>
+  </div>
+  <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="mobile-close" onclick="closeMenu()">✕</button>
+    <a href="tuncover-explore.html" onclick="closeMenu()">Discover</a>
+    <a href="tuncover-artisans.html" onclick="closeMenu()">Artisans</a>
+    <a href="tuncover-login.html" class="menu-cta" onclick="closeMenu()">Sign In</a>
+  </div>
+</nav>
+
+<!-- HERO — populated by JS -->
+<div class="profile-hero" id="profileHero">
+  <div class="profile-hero-inner">
+    <div class="breadcrumb">
+      <a href="tuncover-home.html">Home</a><span>/</span>
+      <a href="tuncover-artisans.html">Artisans</a><span>/</span>
+      <span id="breadcrumbName">Loading…</span>
+    </div>
+    <div class="profile-card-hero">
+      <div class="profile-avatar-wrap">
+        <div class="profile-avatar-initials" id="avatarEl">?</div>
+        <div class="verified-badge" id="verifiedBadge" style="display:none;">✓</div>
+      </div>
+      <div class="profile-hero-info">
+        <div class="profile-craft" id="herocraft">—</div>
+        <h1 id="heroName">Loading…</h1>
+        <div class="profile-location" id="heroLocation">📍 —</div>
+        <div class="profile-stats-row">
+          <div class="profile-stat"><div class="profile-stat-num" id="statActivities">—</div><div class="profile-stat-label">Experiences</div></div>
+          <div class="profile-stat"><div class="profile-stat-num" id="statBookings">—</div><div class="profile-stat-label">Bookings</div></div>
+          <div class="profile-stat"><div class="profile-stat-num" id="statRating">—</div><div class="profile-stat-label">Avg Rating</div></div>
+          <div class="profile-stat"><div class="profile-stat-num" id="statReviews">—</div><div class="profile-stat-label">Reviews</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="profile-tabs" id="profileTabs">
+  <button class="p-tab active" onclick="showTab('about',this)">About</button>
+  <button class="p-tab" onclick="showTab('activities',this)">Experiences</button>
+  <button class="p-tab" onclick="showTab('portfolio',this)">Portfolio</button>
+  <button class="p-tab" onclick="showTab('reviews',this)">Reviews</button>
+</div>
+
+<!-- CONTENT -->
+<div class="profile-content">
+
+  <!-- ABOUT -->
+  <div class="p-panel active" id="panel-about">
+    <div class="about-grid">
+      <div>
+        <div class="section-label">About the Artisan</div>
+        <p class="bio-text" id="bioText">Loading…</p>
+        <div class="section-label" style="margin-top:1.5rem;">Details</div>
+        <div class="detail-list">
+          <div class="detail-row"><span>📍 Location</span><span id="detailVille">—</span></div>
+          <div class="detail-row"><span>🏺 Craft</span><span id="detailSpecialite">—</span></div>
+          <div class="detail-row"><span>⭐ Rating</span><span id="detailRating">—</span></div>
+          <div class="detail-row"><span>🗓 Experiences</span><span id="detailActivites">—</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="contact-card">
+          <h4>Book an Experience</h4>
+          <p style="font-size:0.82rem;color:var(--text-m);line-height:1.6;">Browse this artisan's available workshops and experiences below and reserve your spot.</p>
+          <a href="#" class="book-cta-btn" onclick="showTab('activities',document.querySelectorAll('.p-tab')[1]);return false;">View All Experiences →</a>
+        </div>
+        <div style="background:var(--sand);border-radius:1rem;padding:1.2rem;margin-top:1rem;text-align:center;">
+          <div style="font-size:0.7rem;color:var(--text-m);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.5rem;">Verified by TunCover</div>
+          <div style="color:var(--green);font-size:1.5rem;">✓</div>
+          <div style="font-size:0.78rem;color:var(--text-m);margin-top:0.3rem;">Identity & craft verified</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ACTIVITIES -->
+  <div class="p-panel" id="panel-activities">
+    <div class="section-label" style="margin-bottom:1.2rem;">Available Experiences</div>
+    <div class="activities-grid" id="activitiesGrid">
+      <div style="padding:3rem;text-align:center;color:var(--text-m);font-style:italic;">Loading experiences…</div>
+    </div>
+  </div>
+
+  <!-- PORTFOLIO -->
+  <div class="p-panel" id="panel-portfolio">
+    <div class="section-label" style="margin-bottom:1.2rem;">Portfolio Albums</div>
+    <div class="portfolio-grid" id="portfolioGrid">
+          <div class="no-portfolio">Loading portfolio…</div>
+    </div>
+  </div>
+
+  <!-- REVIEWS -->
+  <div class="p-panel" id="panel-reviews">
+    <div class="reviews-header" id="reviewsHeader">
+      <div class="reviews-score">
+        <div class="big" id="reviewBig">—</div>
+        <div class="stars">★★★★★</div>
+        <div class="count" id="reviewCount">— reviews</div>
+      </div>
+      <div style="font-size:0.88rem;color:var(--text-m);line-height:1.7;max-width:500px;" id="reviewSummary">
+        Guests rate this artisan's experiences based on quality, communication and overall value.
+      </div>
+    </div>
+    <div class="reviews-grid" id="reviewsGrid">
+      <div style="padding:2rem;text-align:center;color:var(--text-m);font-style:italic;">Loading reviews…</div>
+    </div>
+  </div>
+
+</div>
+
+<div class="album-modal" id="albumModal">
+  <div class="album-modal-card">
+    <button class="album-close" onclick="closeAlbumModal()">×</button>
+    <div class="album-modal-head">
+      <div>
+        <div class="section-label" id="albumModalLabel">Portfolio Album</div>
+        <h3 id="albumModalTitle">Album</h3>
+      </div>
+      <div class="album-count" id="albumModalCount">0 items</div>
+    </div>
+    <div class="album-viewer" id="albumViewer"></div>
+    <div class="album-strip" id="albumStrip"></div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand"><span class="logo">TunCover</span><p>Connecting curious travellers with the authentic cultural soul of Tunisia.</p></div>
+    <div class="footer-col"><h4>Explore</h4><a href="tuncover-explore.html">Experiences</a><a href="tuncover-artisans.html">Artisans</a></div>
+    <div class="footer-col"><h4>Company</h4><a href="#">About</a><a href="#">Contact</a></div>
+  </div>
+  <div class="footer-bottom"><span>© 2025 TunCover</span><span>Made in Tunisia 🇹🇳</span></div>
+</footer>
+
+
+<script src="js/profile.js?v=20260430a"></script>
+</body>
+</html>
+
+
+
+

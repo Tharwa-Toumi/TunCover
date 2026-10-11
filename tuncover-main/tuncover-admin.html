@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>TunCover — Admin Panel</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="css/admin.css?v=20260422b">
+</head>
+<body>
+
+<!-- MOBILE TOP BAR -->
+<div class="mobile-topbar">
+  <button class="mob-menu-btn" onclick="toggleSidebar()"><span></span><span></span><span></span></button>
+  <span style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:#fff;font-weight:600;">TunCover Admin</span>
+  <span style="font-size:0.75rem;color:var(--clay);">●  Live</span>
+</div>
+
+<div class="admin-wrap">
+
+  <!-- ══ SIDEBAR ══ -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <a href="tuncover-home.html" class="brand-logo">TunCover</a>
+      <div class="brand-tag">Admin Panel</div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-group-label">Overview</div>
+      <button class="nav-item active" onclick="showPanel('dashboard',this)">
+        <span class="ic">📊</span> Dashboard
+      </button>
+
+      <div class="nav-group-label">Users</div>
+      <button class="nav-item" onclick="showPanel('users',this)">
+        <span class="ic">👥</span> All Users
+      </button>
+      <button class="nav-item" onclick="showPanel('artisans',this)">
+        <span class="ic">🏺</span> Artisans
+        <span class="nav-badge" id="pendingBadge">3</span>
+      </button>
+
+      <div class="nav-group-label">Content</div>
+      <button class="nav-item" onclick="showPanel('activities',this)">
+        <span class="ic">🗺</span> Activities
+      </button>
+      <button class="nav-item" onclick="showPanel('reservations',this)">
+        <span class="ic">📅</span> Reservations
+      </button>
+      <button class="nav-item" onclick="showPanel('reviews',this)">
+        <span class="ic">⭐</span> Reviews
+      </button>
+
+      <div class="nav-group-label">Reports</div>
+      <button class="nav-item" onclick="showPanel('stats',this)">
+        <span class="ic">📈</span> Statistics
+      </button>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="s-avatar">AD</div>
+        <div>
+          <div class="s-name">Admin</div>
+          <div class="s-role">Super Admin</div>
+        </div>
+ <button class="s-logout" onclick="handleLogout()" title="Sign out">↩</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ══ MAIN ══ -->
+  <main class="admin-main">
+    <div class="topbar">
+      <h1 id="panelTitle">Dashboard</h1>
+      <div class="topbar-right">
+        <div class="search-box">
+          <span style="color:var(--text-m);font-size:0.85rem;">🔍</span>
+          <input type="text" placeholder="Search users, activities..."/>
+        </div>
+        <button class="topbar-btn">🔔</button>
+        <button class="topbar-btn" onclick="window.location='tuncover-home.html'">← View Site</button>
+      </div>
+    </div>
+
+    <!-- ══ PANEL: DASHBOARD ══ -->
+    <div class="panel active" id="panel-dashboard">
+      <div class="stats-grid">
+        <div class="stat-card blue">
+          <div class="stat-icon">👥</div>
+          <div class="stat-label">Total Users</div>
+          <div class="stat-num" id="totalUsers">—</div>
+          <div class="stat-sub up">↑ 12 this week</div>
+        </div>
+        <div class="stat-card green">
+          <div class="stat-icon">🏺</div>
+          <div class="stat-label">Active Artisans</div>
+          <div class="stat-num" id="totalArtisans">—</div>
+          <div class="stat-sub warn">3 pending validation</div>
+        </div>
+        <div class="stat-card amber">
+          <div class="stat-icon">📅</div>
+          <div class="stat-label">Reservations</div>
+          <div class="stat-num" id="totalReservations">—</div>
+          <div class="stat-sub up">↑ 24 this month</div>
+        </div>
+        <div class="stat-card red">
+          <div class="stat-icon">🗺</div>
+          <div class="stat-label">Activities</div>
+          <div class="stat-num" id="totalActivities">—</div>
+          <div class="stat-sub warn">8 pending review</div>
+        </div>
+      </div>
+
+      <!-- RECENT ACTIVITY + CHART -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:1.5rem;">
+        <div class="card">
+          <div class="card-header">
+            <div><div class="card-title">Bookings by Region</div></div>
+          </div>
+          <div style="padding:1.2rem 1.5rem;" id="regionChart">
+            <div class="chart-row"><span class="chart-label">Tunis</span><div class="chart-bar-bg"><div class="chart-bar-fill" style="width:78%;background:var(--clay);"></div></div><span class="chart-value">78%</span></div>
+            <div class="chart-row"><span class="chart-label">Nabeul</span><div class="chart-bar-bg"><div class="chart-bar-fill" style="width:62%;background:var(--blue);"></div></div><span class="chart-value">62%</span></div>
+            <div class="chart-row"><span class="chart-label">Kairouan</span><div class="chart-bar-bg"><div class="chart-bar-fill" style="width:45%;background:var(--green);"></div></div><span class="chart-value">45%</span></div>
+            <div class="chart-row"><span class="chart-label">Tozeur</span><div class="chart-bar-bg"><div class="chart-bar-fill" style="width:34%;background:var(--amber);"></div></div><span class="chart-value">34%</span></div>
+            <div class="chart-row"><span class="chart-label">Djerba</span><div class="chart-bar-bg"><div class="chart-bar-fill" style="width:28%;background:var(--gold);"></div></div><span class="chart-value">28%</span></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <div><div class="card-title">Artisans Pending Validation</div></div>
+            <button class="btn-primary-sm" onclick="showPanel('artisans',document.querySelectorAll('.nav-item')[3])">View All</button>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Name</th><th>Craft</th><th>City</th><th>Actions</th></tr></thead>
+              <tbody id="pendingArtisansMini"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- RECENT REGISTRATIONS -->
+      <div class="card">
+        <div class="card-header">
+          <div><div class="card-title">Recent Registrations</div><div class="card-subtitle">Latest users who joined TunCover</div></div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>User</th><th>Role</th><th>Date</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody id="recentUsers"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ PANEL: ALL USERS ══ -->
+    <div class="panel" id="panel-users">
+      <div class="filters-row">
+        <input class="filter-input" type="text" placeholder="🔍  Search by name or email..." id="userSearch" oninput="renderUsers()"/>
+        <select class="filter-select" id="userRoleFilter" onchange="renderUsers()">
+          <option value="">All Roles</option>
+          <option value="touriste">Tourists</option>
+          <option value="artisan">Artisans</option>
+          <option value="admin">Admins</option>
+        </select>
+        <select class="filter-select" id="userStatusFilter" onchange="renderUsers()">
+          <option value="">All Status</option>
+          <option value="actif">Active</option>
+          <option value="banni">Banned</option>
+        </select>
+        <span class="filter-count" id="userCount"></span>
+      </div>
+      <div class="card">
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>User</th><th>Role</th><th>Joined</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody id="usersTable"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ PANEL: ARTISANS ══ -->
+    <div class="panel" id="panel-artisans">
+      <div class="filters-row">
+        <input class="filter-input" type="text" placeholder="🔍  Search artisans..." id="artisanSearch" oninput="renderArtisans()"/>
+        <select class="filter-select" id="artisanStatusFilter" onchange="renderArtisans()">
+          <option value="">All Status</option>
+          <option value="en_attente">Pending</option>
+          <option value="valide">Validated</option>
+          <option value="rejete">Rejected</option>
+        </select>
+        <span class="filter-count" id="artisanCount"></span>
+      </div>
+      <div class="card">
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Artisan</th><th>Craft</th><th>City</th><th>Rating</th><th>Workshops</th><th>Validation</th><th>Actions</th></tr></thead>
+            <tbody id="artisansTable"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ PANEL: ACTIVITIES ══ -->
+    <div class="panel" id="panel-activities">
+      <div class="filters-row">
+        <input class="filter-input" type="text" placeholder="🔍  Search activities..." id="actSearch" oninput="renderActivities()"/>
+        <select class="filter-select" id="actStatusFilter" onchange="renderActivities()">
+          <option value="">All Status</option>
+          <option value="publie">Published</option>
+          <option value="brouillon">Draft</option>
+          <option value="pause">Paused</option>
+        </select>
+        <span class="filter-count" id="actCount"></span>
+      </div>
+      <div class="card">
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Activity</th><th>Artisan</th><th>City</th><th>Price</th><th>Bookings</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody id="activitiesTable"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ PANEL: RESERVATIONS ══ -->
+    <div class="panel" id="panel-reservations">
+      <div class="filters-row">
+        <select class="filter-select" id="resStatusFilter" onchange="renderReservations()">
+          <option value="">All Status</option>
+          <option value="confirmee">Confirmed</option>
+          <option value="en_attente">Pending</option>
+          <option value="annulee">Cancelled</option>
+          <option value="terminee">Completed</option>
+        </select>
+        <select class="filter-select" id="resPaymentFilter" onchange="renderReservations()">
+          <option value="">All Payments</option>
+          <option value="paid">Paid</option>
+          <option value="unpaid">Unpaid</option>
+        </select>
+        <input class="filter-input" type="date" id="resDateFrom" onchange="renderReservations()" style="max-width:170px;" title="From date"/>
+        <input class="filter-input" type="date" id="resDateTo" onchange="renderReservations()" style="max-width:170px;" title="To date"/>
+        <button class="btn-primary-sm" onclick="exportReservations('csv')">Export CSV</button>
+        <button class="btn-primary-sm" onclick="exportReservations('pdf')">Export PDF</button>
+        <span class="filter-count" id="resCount"></span>
+      </div>
+      <div class="card">
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Tourist</th><th>Activity</th><th>Date</th><th>Guests</th><th>Amount</th><th>Status</th><th>Artisan</th><th>Payment</th><th>Actions</th></tr></thead>
+            <tbody id="reservationsTable"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ PANEL: REVIEWS ══ -->
+    <div class="panel" id="panel-reviews">
+      <div class="card">
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Tourist</th><th>Activity</th><th>Rating</th><th>Comment</th><th>Date</th><th>Actions</th></tr></thead>
+            <tbody id="reviewsTable"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ PANEL: STATISTICS ══ -->
+    <div class="panel" id="panel-stats">
+      <div class="stats-grid">
+        <div class="stat-card blue"><div class="stat-icon">💰</div><div class="stat-label">Revenue This Month</div><div class="stat-num" id="statsMonthRevenue">—</div><div class="stat-sub up">TND collected</div></div>
+        <div class="stat-card green"><div class="stat-icon">📈</div><div class="stat-label">Avg Booking Value</div><div class="stat-num" id="statsAvgBooking">—</div><div class="stat-sub" id="statsAvgSub">TND / booking</div></div>
+        <div class="stat-card amber"><div class="stat-icon">⭐</div><div class="stat-label">Platform Rating</div><div class="stat-num" id="statsAvgRating">—</div><div class="stat-sub up" id="statsRatingSub">— reviews</div></div>
+        <div class="stat-card red"><div class="stat-icon">🔄</div><div class="stat-label">Cancellation Rate</div><div class="stat-num" id="statsCancRate">—%</div><div class="stat-sub warn" id="statsCancSub">of all bookings</div></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;">
+        <div class="card">
+          <div class="card-header"><div class="card-title">Bookings by Category</div></div>
+          <div style="padding:1.2rem 1.5rem;">
+            <div class="chart-row"><span class="chart-label">Workshops</span><div class="chart-bar-bg"><div class="chart-bar-fill" style="width:82%;background:var(--clay);"></div></div><span class="chart-value">82</span></div>
+            <div class="chart-row"><span class="chart-label">Heritage</span><div class="chart-bar-bg"><div class="chart-bar-fill" style="width:65%;background:var(--blue);"></div></div><span class="chart-value">65</span></div>
+            <div class="chart-row"><span class="chart-label">Tours</span><div class="chart-bar-bg"><div class="chart-bar-fill" style="width:48%;background:var(--green);"></div></div><span class="chart-value">48</span></div>
+            <div class="chart-row"><span class="chart-label">Events</span><div class="chart-bar-bg"><div class="chart-bar-fill" style="width:31%;background:var(--amber);"></div></div><span class="chart-value">31</span></div>
+            <div class="chart-row"><span class="chart-label">Festivals</span><div class="chart-bar-bg"><div class="chart-bar-fill" style="width:22%;background:var(--gold);"></div></div><span class="chart-value">22</span></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><div class="card-title">Top Artisans by Revenue</div></div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Artisan</th><th>Bookings</th><th>Revenue</th></tr></thead>
+              <tbody id="statsTopArtisans">
+                <tr><td class="td-name">Mohamed Trabelsi</td><td>47</td><td style="color:var(--green);">2,840 TND</td></tr>
+                <tr><td class="td-name">Fatma Ben Ali</td><td>31</td><td style="color:var(--green);">1,860 TND</td></tr>
+                <tr><td class="td-name">Leila Mansour</td><td>28</td><td style="color:var(--green);">2,240 TND</td></tr>
+                <tr><td class="td-name">Khaled Mabrouk</td><td>22</td><td style="color:var(--green);">1,100 TND</td></tr>
+                <tr><td class="td-name">Youssef Hamdi</td><td>18</td><td style="color:var(--green);">990 TND</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- ══ MODALS ══ -->
+<!-- User detail modal -->
+<div class="modal-overlay" id="userModal">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title" id="userModalTitle">User Details</span>
+      <button class="modal-close" onclick="closeModal('userModal')">✕</button>
+    </div>
+    <div class="modal-body" id="userModalBody"></div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeModal('userModal')">Close</button>
+      <button class="btn-confirm danger" id="banBtn" onclick="banUser()">Ban User</button>
+    </div>
+  </div>
+</div>
+
+<!-- Artisan validation modal -->
+<div class="modal-overlay" id="artisanModal">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title" id="artisanModalTitle">Artisan Profile</span>
+      <button class="modal-close" onclick="closeModal('artisanModal')">✕</button>
+    </div>
+    <div class="modal-body" id="artisanModalBody"></div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeModal('artisanModal')">Close</button>
+      <button class="btn-confirm danger" onclick="rejectArtisan()">Reject</button>
+      <button class="btn-confirm" onclick="approveArtisan()">Approve</button>
+    </div>
+  </div>
+</div>
+
+<!-- Delete confirm modal -->
+<div class="modal-overlay" id="deleteModal">
+  <div class="modal" style="width:380px;">
+    <div class="modal-header">
+      <span class="modal-title">Confirm Delete</span>
+      <button class="modal-close" onclick="closeModal('deleteModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <p style="font-size:0.88rem;color:var(--text-l);line-height:1.65;" id="deleteModalMsg">Are you sure you want to delete this item This action cannot be undone.</p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeModal('deleteModal')">Cancel</button>
+      <button class="btn-confirm danger" onclick="confirmDelete()">Delete</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+
+<script src="js/tuncover-admin.js?v=20260430a"></script>
+</body>
+</html>
+
+
+
+

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+  <link rel="manifest" href="manifest.json"/>
+  <link rel="apple-touch-icon" href="https://via.placeholder.com/192x192/C9703A/FFFFFF?text=TC"/>
+  <meta name="theme-color" content="#1A1410"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+  <meta name="mobile-web-app-capable" content="yes"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>TunCover — Artisans</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="css/artisans.css?v=20260422b">
+
+
+</head>
+<body>
+<nav id="nav">
+  <a href="tuncover-home.html" class="nav-logo">TunCover</a>
+  <div class="nav-links" id="navLinks">
+    <a href="tuncover-explore.html">Discover</a>
+    <a href="tuncover-artisans.html" class="active">Artisans</a>
+    <a href="tuncover-login.html" class="nav-cta">Sign In</a>
+  </div>
+  <button class="hamburger" id="hamburgerBtn" onclick="toggleMenu()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="mobile-close" onclick="closeMenu()">✕</button>
+    <a href="tuncover-explore.html" onclick="closeMenu()">Discover</a>
+    <a href="tuncover-artisans.html" onclick="closeMenu()">Artisans</a>
+    <a href="tuncover-login.html" class="menu-cta" onclick="closeMenu()">Sign In</a>
+  </div>
+  
+</nav>
+<div class="hero-strip">
+  <div>
+    <h1>Meet the <em>Makers</em><br/>of Tunisia</h1>
+    <p>180+ local artisans preserving centuries of Tunisian craft tradition — each one a living connection to the country's cultural heritage.</p>
+    <div class="craft-pills">
+      <span class="craft-pill active" onclick="filterArtisans('all',this)">All Crafts</span>
+      <span class="craft-pill" onclick="filterArtisans('pottery',this)">🏺 Pottery</span>
+      <span class="craft-pill" onclick="filterArtisans('weaving',this)">🧶 Weaving</span>
+      <span class="craft-pill" onclick="filterArtisans('jewellery',this)">💎 Jewellery</span>
+      <span class="craft-pill" onclick="filterArtisans('calligraphy',this)">✍️ Calligraphy</span>
+      <span class="craft-pill" onclick="filterArtisans('leather',this)">👜 Leather</span>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div class="h-stat"><div class="h-stat-num">180+</div><div class="h-stat-label">Artisans</div></div>
+    <div class="h-stat"><div class="h-stat-num">24</div><div class="h-stat-label">Governorates</div></div>
+    <div class="h-stat"><div class="h-stat-num">40+</div><div class="h-stat-label">Craft types</div></div>
+  </div>
+</div>
+
+<div class="filter-bar">
+  <input type="text" placeholder="🔍  Search artisans by name, craft or city..." id="artisanSearch" oninput="renderArtisans()"/>
+  <select onchange="renderArtisans()" id="regionFilter">
+    <option value="">All Regions</option>
+    <option>Tunis</option><option>Nabeul</option><option>Kairouan</option>
+    <option>Djerba</option><option>Gafsa</option><option>Tozeur</option>
+  </select>
+  <select id="sortFilter">
+    <option>Sort: Featured</option>
+    <option>Most Reviews</option>
+    <option>Highest Rated</option>
+  </select>
+</div>
+
+<div class="artisans-page">
+  <div class="page-header">
+    <h2>All Artisans <span style="font-family:'DM Sans',sans-serif;font-size:0.85rem;color:var(--text-m);font-weight:400;" id="aCount">(8 shown)</span></h2>
+  </div>
+
+  <div class="artisans-grid" id="artisansGrid"></div>
+
+  <div class="join-cta">
+    <div>
+      <h3>Are you an artisan or cultural guide?</h3>
+      <p>Join TunCover and connect directly with thousands of culturally curious travellers from around the world.</p>
+    </div>
+    <a href="tuncover-artisan-dashboard.html" class="btn-white">Join as an Artisan</a>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand"><span class="logo">TunCover</span><p>Connecting curious travellers with the authentic cultural soul of Tunisia.</p></div>
+    <div class="footer-col"><h4>Explore</h4><a href="#">Cultural Sites</a><a href="#">Workshops</a><a href="#">Events</a></div>
+    <div class="footer-col"><h4>Artisans</h4><a href="#">Join Us</a><a href="#">List Workshop</a></div>
+    <div class="footer-col"><h4>Company</h4><a href="#">About</a><a href="#">Contact</a></div>
+  </div>
+  <div class="footer-bottom"><span>© 2025 TunCover</span><span>Made in Tunisia 🇹🇳</span></div>
+</footer>
+
+
+
+
+
+
+
+
+
+
+
+<script src="js/tuncover-artisans.js?v=20260430a"></script>
+</body>
+</html>
+
+
+
+

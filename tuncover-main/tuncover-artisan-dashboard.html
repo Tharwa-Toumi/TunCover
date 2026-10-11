@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+  <link rel="manifest" href="manifest.json"/>
+  <link rel="apple-touch-icon" href="https://via.placeholder.com/192x192/C9703A/FFFFFF?text=TC"/>
+  <meta name="theme-color" content="#1A1410"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+  <meta name="mobile-web-app-capable" content="yes"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="css/dashboard.css?v=20260422b">
+<title>TunCover - Artisan Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+
+
+<link rel="stylesheet" href="css/artisan-dashboard-inline.css?v=20260422b">
+</head>
+<body>
+
+<div class="dash-layout">
+  <aside class="sidebar">
+    <a href="tuncover-home.html" class="sidebar-logo">TunCover</a>
+    <div class="sidebar-user">
+      <div class="sidebar-avatar" id="sidebarAvatar" style="display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-weight:600;color:#fff;background:var(--clay,#C9703A);border-radius:50%;width:48px;height:48px;">?</div>
+      <div class="sidebar-user-info">
+        <div class="name" id="sidebarName">Loading...</div>
+        <div class="role" id="sidebarRole">Artisan</div>
+      </div>
+    </div>
+    <nav class="sidebar-nav" style="flex:1;margin-top:1.5rem;">
+      <a class="nav-item active" onclick="showPanel('overview',this)" style="display:flex;align-items:center;gap:0.75rem;padding:0.75rem 1.2rem;border-radius:0.7rem;cursor:pointer;margin-bottom:0.2rem;font-size:0.83rem;transition:background 0.2s;"><span>Overview</span></a>
+      <a class="nav-item" onclick="showPanel('bookings',this)" style="display:flex;align-items:center;gap:0.75rem;padding:0.75rem 1.2rem;border-radius:0.7rem;cursor:pointer;margin-bottom:0.2rem;font-size:0.83rem;transition:background 0.2s;"><span>Bookings</span></a>
+      <a class="nav-item" onclick="showPanel('listings',this)" style="display:flex;align-items:center;gap:0.75rem;padding:0.75rem 1.2rem;border-radius:0.7rem;cursor:pointer;margin-bottom:0.2rem;font-size:0.83rem;transition:background 0.2s;"><span>My Listings</span></a>
+      <a class="nav-item" onclick="showPanel('addlisting',this)" style="display:flex;align-items:center;gap:0.75rem;padding:0.75rem 1.2rem;border-radius:0.7rem;cursor:pointer;margin-bottom:0.2rem;font-size:0.83rem;transition:background 0.2s;"><span>Add Listing</span></a>
+      <a class="nav-item" onclick="showPanel('earnings',this)" style="display:flex;align-items:center;gap:0.75rem;padding:0.75rem 1.2rem;border-radius:0.7rem;cursor:pointer;margin-bottom:0.2rem;font-size:0.83rem;transition:background 0.2s;"><span>Earnings</span></a>
+      <a class="nav-item" onclick="showPanel('profile',this)" style="display:flex;align-items:center;gap:0.75rem;padding:0.75rem 1.2rem;border-radius:0.7rem;cursor:pointer;margin-bottom:0.2rem;font-size:0.83rem;transition:background 0.2s;"><span>Profile</span></a>
+    </nav>
+    <div class="sidebar-bottom">
+      <button onclick="handleLogout()" style="display:flex;align-items:center;gap:0.7rem;width:100%;background:none;border:none;cursor:pointer;padding:0.75rem 1.2rem;border-radius:0.7rem;font-family:inherit;font-size:0.83rem;color:rgba(255,255,255,0.45);transition:all 0.2s;text-align:left;" onmouseover="this.style.background='rgba(224,82,82,0.12)';this.style.color='#e05252';" onmouseout="this.style.background='none';this.style.color='rgba(255,255,255,0.45)';">
+        <span style="font-size:1rem;">&larr;</span> Sign Out
+      </button>
+      
+    </div>
+  </aside>
+
+  <main class="dash-main">
+    <header class="dash-header">
+      <h1 id="panelTitle">Overview</h1>
+      <div class="header-right">
+        <button onclick="openArtNotifModal()" style="position:relative;background:#fff;border:1px solid var(--sand2,#d8c7b3);width:38px;height:38px;border-radius:50%;cursor:pointer;">
+          &#128276;
+          <span id="artNotifDot" style="display:none;position:absolute;top:6px;right:6px;width:8px;height:8px;border-radius:50%;background:#e05252;"></span>
+        </button>
+        <button class="add-btn" onclick="showPanel('addlisting',document.querySelectorAll('.nav-item')[3])">+ Add New Listing</button>
+      </div>
+    </header>
+
+    <!-- OVERVIEW -->
+    <div class="dash-panel active" id="panel-overview">
+      <div id="artisanGreeting" style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--text-m);font-style:italic;margin-bottom:1.5rem;">Good day</div>
+      <div class="stats-row">
+        <div class="stat-card"><div class="stat-card-label">Total Bookings</div><div class="stat-card-num" id="statTotalBookings">-</div><div class="stat-card-sub" id="statTotalSub">loading...</div></div>
+        <div class="stat-card"><div class="stat-card-label">Pending</div><div class="stat-card-num" id="statPending">-</div><div class="stat-card-sub warn" id="statPendingSub">loading...</div></div>
+        <div class="stat-card"><div class="stat-card-label">Total Earned</div><div class="stat-card-num" id="statEarned">-</div><div class="stat-card-sub" id="statEarnedSub">TND this month</div></div>
+        <div class="stat-card"><div class="stat-card-label">Avg. Rating</div><div class="stat-card-num" id="statRating">-</div><div class="stat-card-sub" id="statRatingSub">no reviews yet</div></div>
+      </div>
+
+      <div class="chart-box">
+        <div class="chart-header">
+          <span class="chart-title">Bookings Over Time</span>
+          <select class="chart-select"><option>Last 6 Months</option><option>Last Year</option></select>
+        </div>
+        <div class="chart-bars">
+          <div class="chart-bar-wrap"><div class="chart-val">6</div><div class="chart-bar" style="height:40%;"></div><div class="chart-label">Oct</div></div>
+          <div class="chart-bar-wrap"><div class="chart-val">9</div><div class="chart-bar" style="height:60%;"></div><div class="chart-label">Nov</div></div>
+          <div class="chart-bar-wrap"><div class="chart-val">5</div><div class="chart-bar" style="height:33%;"></div><div class="chart-label">Dec</div></div>
+          <div class="chart-bar-wrap"><div class="chart-val">12</div><div class="chart-bar" style="height:80%;"></div><div class="chart-label">Jan</div></div>
+          <div class="chart-bar-wrap"><div class="chart-val">10</div><div class="chart-bar" style="height:67%;"></div><div class="chart-label">Feb</div></div>
+          <div class="chart-bar-wrap"><div class="chart-val">15</div><div class="chart-bar" style="height:100%;"></div><div class="chart-label">Mar</div></div>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <div class="table-header"><span class="table-title">Recent Bookings</span><span style="font-size:0.78rem;color:var(--clay);cursor:pointer;" onclick="showPanel('bookings',document.querySelectorAll('.nav-item')[1])">View all -></span></div>
+        <table>
+          <thead><tr><th>Tourist</th><th>Experience</th><th>Date</th><th>Guests</th><th>Amount</th><th>Status</th><th></th></tr></thead>
+          <tbody id="overviewBookingsTbody"><tr><td colspan="7" style="text-align:center;color:var(--text-m);padding:1.5rem;font-style:italic;">Loading...</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- BOOKINGS -->
+    <div class="dash-panel" id="panel-bookings">
+      <div class="table-wrap">
+        <div class="table-header"><span class="table-title">All Bookings</span></div>
+        <table>
+          <thead><tr><th>Tourist</th><th>Experience</th><th>Date & Time</th><th>Guests</th><th>Amount</th><th>Status</th><th>Payment</th><th>Actions</th></tr></thead>
+          <tbody id="bookingsTbody"><tr><td colspan="8" style="text-align:center;color:var(--text-m);padding:1.5rem;font-style:italic;">Loading...</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- LISTINGS -->
+    <div class="dash-panel" id="panel-listings">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.2rem;">
+        <span style="font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-m);">Your Published & Draft Experiences</span>
+        <button class="add-btn" onclick="showPanel('addlisting',document.querySelectorAll('.nav-item')[3])" style="font-size:0.78rem;padding:0.5rem 1.2rem;">+ Add New</button>
+      </div>
+      <div class="listings-grid" id="listingsGrid">
+        <div style="text-align:center;padding:3rem;color:var(--text-m);font-style:italic;">Loading listings...</div>
+      </div>
+    </div>
+
+    <!-- ADD LISTING -->
+    <div class="dash-panel" id="panel-addlisting">
+      <div class="form-card" id="listing-form-card">
+        <div class="form-section-title" id="listing-form-title">Add New Experience</div>
+        <input type="hidden" id="editListingId" value=""/>
+
+        <div class="fg">
+          <label>Title *</label>
+          <input type="text" id="lstTitre" placeholder="e.g. Traditional Pottery Workshop - Beginner Friendly"/>
+          <span class="field-error" id="lstTitreErr"></span>
+        </div>
+        <div class="form-grid-2">
+          <div class="fg">
+            <label>Category</label>
+            <select id="lstCategorie">
+              <option value="1">Workshop</option>
+              <option value="2">Guided Tour</option>
+              <option value="3">Cultural Event</option>
+              <option value="4">Craft</option>
+              <option value="6">Jewellery</option>
+              <option value="7">Weaving</option>
+              <option value="8">Calligraphy</option>
+              <option value="9">Cooking</option>
+              <option value="10">Heritage</option>
+              <option value="11">Leather</option>
+              <option value="12">Ceramic</option>
+            </select>
+          </div>
+          <div class="fg">
+            <label>City / Region *</label>
+            <input type="text" id="lstVille" placeholder="e.g. Nabeul"/>
+          </div>
+        </div>
+        <div class="fg">
+          <label>Description *</label>
+          <textarea id="lstDescription" rows="4" placeholder="Describe your experience - what will guests see, learn and take home?"></textarea>
+          <span class="field-error" id="lstDescErr"></span>
+        </div>
+        <div class="form-section-title" style="margin-top:0.5rem;">Pricing & Availability</div>
+        <div class="form-grid-2">
+          <div class="fg">
+            <label>Price per Person (TND) *</label>
+            <input type="number" id="lstPrix" placeholder="60" min="1"/>
+            <span class="field-error" id="lstPrixErr"></span>
+          </div>
+          <div class="fg">
+            <label>Max Guests</label>
+            <input type="number" id="lstMaxP" placeholder="8" min="1" max="50"/>
+          </div>
+        </div>
+        <div class="form-grid-2">
+          <div class="fg">
+            <label>Duration (hours)</label>
+            <select id="lstDuree">
+              <option value="1">1 hour</option>
+              <option value="2" selected>2 hours</option>
+              <option value="3">3 hours</option>
+              <option value="4">4 hours</option>
+              <option value="6">Half day (6h)</option>
+              <option value="8">Full day (8h)</option>
+            </select>
+          </div>
+          <div class="fg">
+            <label>Image URL <span style="font-weight:300;font-size:0.75rem;">(paste a photo link)</span></label>
+            <input type="url" id="lstImageUrl" placeholder="https://images.unsplash.com/photo-..."/>
+          </div>
+        </div>
+        <div style="display:flex;gap:1rem;margin-top:1.2rem;flex-wrap:wrap;">
+          <button onclick="submitListing('publie')" id="btnPublish" style="background:var(--clay,#C9703A);color:#fff;border:none;padding:0.85rem 2rem;border-radius:3rem;font-family:'DM Sans',sans-serif;font-size:0.88rem;font-weight:500;cursor:pointer;flex:1;min-width:140px;">
+            Publish Now
+          </button>
+          <button onclick="submitListing('brouillon')" id="btnDraft" style="background:var(--sand);color:var(--text-m);border:1px solid var(--sand2);padding:0.85rem 2rem;border-radius:3rem;font-family:'DM Sans',sans-serif;font-size:0.85rem;cursor:pointer;flex:1;min-width:140px;">
+            Save as Draft
+          </button>
+          <button onclick="cancelEditListing()" id="btnCancelEdit" style="display:none;background:none;color:#a33;border:1px solid #a33;padding:0.85rem 1.5rem;border-radius:3rem;font-family:'DM Sans',sans-serif;font-size:0.85rem;cursor:pointer;">
+            Cancel Edit
+          </button>
+        </div>
+        <p id="listing-form-error" style="color:#a33;font-size:0.78rem;margin-top:0.5rem;display:none;"></p>
+      </div>
+    </div>
+
+    <!-- EARNINGS -->
+    <div class="dash-panel" id="panel-earnings">
+      <div class="stats-row">
+        <div class="stat-card"><div class="stat-card-label">This Month</div><div class="stat-card-num" id="earnThisMonth">—</div><div class="stat-card-sub">TND earned</div></div>
+        <div class="stat-card"><div class="stat-card-label">Last Month</div><div class="stat-card-num" id="earnLastMonth">—</div><div class="stat-card-sub">↑ +35% growth</div></div>
+        <div class="stat-card"><div class="stat-card-label">Total Earnings</div><div class="stat-card-num" id="earnTotal">—</div><div class="stat-card-sub">TND all time</div></div>
+        <div class="stat-card"><div class="stat-card-label">Pending Payout</div><div class="stat-card-num" id="earnPending">—</div><div class="stat-card-sub warn">Processing</div></div>
+      </div>
+      <div class="table-wrap">
+        <div class="table-header"><span class="table-title">Transaction History</span></div>
+        <table>
+          <thead><tr><th>Date</th><th>Booking</th><th>Tourist</th><th>Amount</th><th>Platform Fee</th><th>Net</th><th>Status</th></tr></thead>
+          <tbody id="earningsTbody"><tr><td colspan="7" style="text-align:center;color:var(--text-m);padding:1.5rem;font-style:italic;">Loading…</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- PUBLIC PROFILE -->
+    <div class="dash-panel" id="panel-profile">
+      <div class="profile-preview-banner">
+        <div class="ppb-left">
+          <div class="ppb-avatar" id="ppbAvatar" style="display:flex;align-items:center;justify-content:center;font-size:1.2rem;font-weight:600;color:#fff;background:var(--clay,#C9703A);border-radius:50%;width:56px;height:56px;">?</div>
+          <div><div class="ppb-name" id="ppbName">Loading...</div><div class="ppb-sub">This is how tourists see your public profile</div></div>
+        </div>
+        <a href="tuncover-artisans.html" class="ppb-link">View Public Profile</a>
+      </div>
+      <div class="form-card">
+        <div class="form-section-title">About You</div>
+        <div class="fg">
+          <label>Profile Picture</label>
+          <input type="file" id="pfAvatarFile" accept="image/*"/>
+          <div style="font-size:0.72rem;color:var(--text-m);margin-top:0.25rem;">Upload JPG, PNG, WEBP or GIF to update your public artisan photo.</div>
+        </div>
+        <div class="fg"><label>Display Name</label><input type="text" id="pfName" value=""/></div>
+        <div class="fg"><label>Craft Speciality</label><input type="text" id="pfSpecialite" value=""/></div>
+        <div class="fg"><label>Bio</label><textarea id="pfBio"></textarea></div>
+        <div class="form-grid-2">
+          <div class="fg"><label>City</label><input type="text" id="pfVille" value=""/></div>
+          <div class="fg"><label>Experience (years)</label><input type="number" value=""/></div>
+        </div>
+        <div class="fg"><label>Languages Spoken</label><input type="text" value="Arabic, French, English"/></div>
+        <button class="save-btn" onclick="saveProfile()">Save Profile</button>
+      </div>
+      <div class="form-card" style="margin-top:1rem;">
+        <div class="form-section-title">Portfolio Albums</div>
+        <div class="form-grid-2">
+          <div class="fg">
+            <label>Album Name *</label>
+            <input type="text" id="portAlbumTitle" placeholder="e.g. Hand-painted Collection"/>
+          </div>
+          <div class="fg">
+            <label>Add To Existing Album <span style="font-weight:300;font-size:0.75rem;">(optional)</span></label>
+            <select id="portExistingAlbum">
+              <option value="">Create new album</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-grid-2">
+          <div class="fg">
+            <label>Item Caption <span style="font-weight:300;font-size:0.75rem;">(optional)</span></label>
+            <input type="text" id="portTitle" placeholder="e.g. Blue floral bowl"/>
+          </div>
+          <div class="fg">
+            <label>Default Type</label>
+            <select id="portType">
+              <option value="image">Image</option>
+              <option value="video">Video</option>
+            </select>
+          </div>
+          <div class="fg">
+            <label>Thumbnail URL <span style="font-weight:300;font-size:0.75rem;">(optional for videos)</span></label>
+            <input type="url" id="portThumbUrl" placeholder="https://..."/>
+          </div>
+        </div>
+        <div class="fg">
+          <label>Upload Album Media</label>
+          <input type="file" id="portFiles" accept="image/*,video/*" multiple/>
+          <div style="font-size:0.72rem;color:var(--text-m);margin-top:0.25rem;">Select multiple images/videos together to create one album. Accepted: JPG, PNG, WEBP, GIF, MP4, WEBM, OGG, MOV (max 50MB each)</div>
+        </div>
+        <div class="fg">
+          <label>Single Media URL <span style="font-weight:300;font-size:0.75rem;">(optional)</span></label>
+          <input type="url" id="portMediaUrl" placeholder="https://..."/>
+        </div>
+        <button class="save-btn" onclick="addPortfolioItem()" style="margin-bottom:1rem;">Create Album</button>
+        <div id="portfolioList" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:0.8rem;"></div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<div id="toast" style="position:fixed;bottom:2rem;right:2rem;background:var(--ink);color:#fff;padding:1rem 1.5rem;border-radius:0.75rem;font-size:0.85rem;transform:translateY(100px);opacity:0;transition:all 0.4s;z-index:200;">Listing published successfully!</div>
+
+
+
+
+
+
+<div id="mobileTabs" style="display:none;position:fixed;bottom:0;left:0;right:0;background:var(--ink);border-top:1px solid rgba(255,255,255,0.08);padding:0.5rem 0;z-index:150;padding-bottom:env(safe-area-inset-bottom,0.5rem);">
+  <div style="display:flex;justify-content:space-around;align-items:center;">
+    <button onclick="showPanel('overview',document.querySelectorAll('.nav-item')[0])" style="display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;cursor:pointer;padding:0.3rem 0.6rem;color:rgba(255,255,255,0.55);font-family:'DM Sans',sans-serif;font-size:0.58rem;letter-spacing:0.06em;text-transform:uppercase;">
+      <span style="font-size:1.2rem;">Overview</span>
+    </button>
+    <button onclick="showPanel('bookings',document.querySelectorAll('.nav-item')[1])" style="display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;cursor:pointer;padding:0.3rem 0.6rem;color:rgba(255,255,255,0.55);font-family:'DM Sans',sans-serif;font-size:0.58rem;letter-spacing:0.06em;text-transform:uppercase;">
+      <span style="font-size:1.2rem;">Bookings</span>
+    </button>
+    <button onclick="showPanel('listings',document.querySelectorAll('.nav-item')[2])" style="display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;cursor:pointer;padding:0.3rem 0.6rem;color:rgba(255,255,255,0.55);font-family:'DM Sans',sans-serif;font-size:0.58rem;letter-spacing:0.06em;text-transform:uppercase;">
+      <span style="font-size:1.2rem;">Listings</span>
+    </button>
+    <button onclick="showPanel('addlisting',document.querySelectorAll('.nav-item')[3])" style="display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;cursor:pointer;padding:0.3rem 0.6rem;color:rgba(255,255,255,0.55);font-family:'DM Sans',sans-serif;font-size:0.58rem;letter-spacing:0.06em;text-transform:uppercase;">
+      <span style="font-size:1.2rem;">+</span>Add
+    </button>
+    <button onclick="showPanel('earnings',document.querySelectorAll('.nav-item')[4])" style="display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;cursor:pointer;padding:0.3rem 0.6rem;color:rgba(255,255,255,0.55);font-family:'DM Sans',sans-serif;font-size:0.58rem;letter-spacing:0.06em;text-transform:uppercase;">
+      <span style="font-size:1.2rem;">Earnings</span>
+    </button>
+  </div>
+</div>
+
+
+
+<div id="mobileTabs" style="position:fixed;bottom:0;left:0;right:0;background:var(--ink);border-top:1px solid rgba(255,255,255,0.08);z-index:150;display:none;">
+  <div style="display:flex;justify-content:space-around;padding:0.6rem 0;">
+    <button onclick="showPanel('overview',document.querySelectorAll('.nav-item')[0])" style="display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:0.56rem;color:rgba(255,255,255,0.5);letter-spacing:0.05em;text-transform:uppercase;padding:0 0.5rem;">
+      <span style="font-size:1.3rem;">Home</span>
+    </button>
+    <button onclick="showPanel('bookings',document.querySelectorAll('.nav-item')[1])" style="display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:0.56rem;color:rgba(255,255,255,0.5);letter-spacing:0.05em;text-transform:uppercase;padding:0 0.5rem;">
+      <span style="font-size:1.3rem;">Bookings</span>
+    </button>
+    <button onclick="showPanel('listings',document.querySelectorAll('.nav-item')[2])" style="display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:0.56rem;color:rgba(255,255,255,0.5);letter-spacing:0.05em;text-transform:uppercase;padding:0 0.5rem;">
+      <span style="font-size:1.3rem;">Listings</span>
+    </button>
+    <button onclick="showPanel('addlisting',document.querySelectorAll('.nav-item')[3])" style="display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:0.56rem;color:rgba(255,255,255,0.5);letter-spacing:0.05em;text-transform:uppercase;padding:0 0.5rem;">
+      <span style="font-size:1.3rem;">Add</span>
+    </button>
+    <button onclick="showPanel('earnings',document.querySelectorAll('.nav-item')[4])" style="display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:0.56rem;color:rgba(255,255,255,0.5);letter-spacing:0.05em;text-transform:uppercase;padding:0 0.5rem;">
+      <span style="font-size:1.3rem;">Earnings</span>
+    </button>
+  </div>
+</div>
+
+
+
+<script src="js/tuncover-artisan-dashboard.js?v=20260430a"></script>
+</body>
+</html>
+
+
+
+
+
